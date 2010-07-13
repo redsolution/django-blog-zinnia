@@ -8,6 +8,17 @@ from zinnia.models import Entry
 
 class ZinniaCalendar(LocaleHTMLCalendar):
     """Override of LocaleHTMLCalendar"""
+    def __init__(self, firstweekday=0, locale=None):
+        LocaleHTMLCalendar.__init__(self, firstweekday)
+        try:
+            import locale as _locale
+            if locale is None:
+                locale = _locale.getdefaultlocale()
+        except Exception, e:
+            # Fix for windows locale error
+            print 'Error:', e
+            locale = ('en_US', 'UTF8')
+        self.locale = locale
 
     def formatday(self, day, weekday):
         if day and day in self.day_entries:
@@ -18,7 +29,6 @@ class ZinniaCalendar(LocaleHTMLCalendar):
                                             day_date.strftime('%d')])
             return '<td class="%s entry"><a href="%s">%d</a></td>' % (
                 self.cssclasses[weekday], archive_day_url, day)
-        
         return super(ZinniaCalendar, self).formatday(day, weekday)
 
     def formatmonth(self, theyear, themonth, withyear=True):
@@ -27,7 +37,6 @@ class ZinniaCalendar(LocaleHTMLCalendar):
         self.day_entries = [entries.creation_date.day for entries in
                             Entry.published.filter(creation_date__year=theyear,
                                                    creation_date__month=themonth)]
-
         return super(ZinniaCalendar, self).formatmonth(theyear, themonth, withyear)
 
 

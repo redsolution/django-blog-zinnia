@@ -19,8 +19,9 @@
 	<link rel="stylesheet" type="text/css" media="screen, projection" href="{{ ZINNIA_MEDIA_URL }}css/ie.css" />
     <![endif]-->
     {% get_archives_entries "zinnia/tags/link_archives_entries.html" %}
-    <link rel="pingback" href="/xmlrpc/" />
+    {% comment %}
     <link rel="alternate" type="application/rss+xml" title="{% trans "RSS Feed of lastest entries" %}" href="{% url zinnia_entry_latest_feed %}" />
+    {% endcomment %}
     {% block link %}{% endblock %}
     {% block script %}{% endblock %}
     <title>Zinnia's Blog - {% block title %}{% endblock %}</title>
@@ -32,9 +33,11 @@
 	  <a href="{% url zinnia_sitemap %}" title="{% trans "Sitemap" %}" class="link sitemap">
 	    {% trans "Sitemap" %}
 	  </a> |
+	  {% comment %}
 	  <a href="{% url zinnia_entry_latest_feed %}" title="{% trans "RSS Feed of lastest entries" %}" class="link feeds">
 	    {% trans "RSS Feed" %}
 	  </a>
+	  {% endcomment %}
 	</div>
 	<h1>
 	  <a href="{% url zinnia_entry_archive_index %}" title="Zinnia's Blog">

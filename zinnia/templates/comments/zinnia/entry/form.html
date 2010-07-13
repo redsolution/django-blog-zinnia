@@ -1,7 +1,9 @@
 {% load comments i18n %}
 
 <form action="{% comment_form_target %}" method="post">
+  {% comment %}
   {% csrf_token %}
+  {% endcomment %}
   <fieldset>
     <legend>{% trans "Post your comment" %}</legend>
     {% for field in form %}

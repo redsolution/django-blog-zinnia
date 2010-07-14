@@ -24,7 +24,7 @@ class CategoryAdmin(admin.ModelAdmin):
     fields = ('title', 'slug', 'description')
     list_display = ('title', 'slug', 'description')
     list_filter = ('title', 'slug')
-    prepopulated_fields = {'slug': ('title', )}
+    prepopulated_fields = {'slug': ('title',)}
     search_fields = ('title', 'description')
 
 
@@ -43,7 +43,7 @@ class EntryAdmin(admin.ModelAdmin):
                     'get_is_actual', 'get_is_visible', 'get_link',
                     'get_short_url', 'creation_date', 'last_update')
     filter_horizontal = ('categories', 'authors', 'related')
-    prepopulated_fields = {'slug': ('title', )}
+    prepopulated_fields = {'slug': ('title',)}
     search_fields = ('title', 'excerpt', 'content', 'tags')
     actions = ['make_mine', 'make_published', 'make_hidden', 'close_comments',
                'ping_directories', 'make_tweet']
@@ -144,6 +144,20 @@ class EntryAdmin(admin.ModelAdmin):
             form.cleaned_data['authors'].append(request.user)
 
         entry.last_update = datetime.now()
+#        check for slug duplicates
+        import random
+        from django.core.exceptions import ObjectDoesNotExist
+        while True:
+           try:
+               other_with_simmilar_slug = Entry.objects.get(slug=entry.slug)
+           except ObjectDoesNotExist:
+               break
+           else:
+               if other_with_simmilar_slug.id != entry.id:
+                   entry.slug += unicode(random.randint(0, 9))
+               else:
+                   break
+
         entry.save()
 
         if entry.is_visible and SAVE_PING_DIRECTORIES:

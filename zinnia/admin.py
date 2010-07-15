@@ -148,15 +148,15 @@ class EntryAdmin(admin.ModelAdmin):
         import random
         from django.core.exceptions import ObjectDoesNotExist
         while True:
-           try:
-               other_with_simmilar_slug = Entry.objects.get(slug=entry.slug)
-           except ObjectDoesNotExist:
-               break
-           else:
-               if other_with_simmilar_slug.id != entry.id:
-                   entry.slug += unicode(random.randint(0, 9))
-               else:
-                   break
+            try:
+                other_with_simmilar_slug = Entry.objects.get(slug=entry.slug)
+            except ObjectDoesNotExist:
+                break
+            else:
+                if other_with_simmilar_slug.id != entry.id:
+                    entry.slug += unicode(random.randint(0, 9))
+                else:
+                    break
 
         entry.save()
 

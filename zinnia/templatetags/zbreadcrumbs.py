@@ -19,7 +19,7 @@ def year_crumb(datetime):
 def month_crumb(datetime):
     year = datetime.strftime('%Y')
     month = datetime.strftime('%m')
-    month_text = datetime.strftime('%B').capitalize()
+    month_text = _(datetime.strftime('%B').capitalize())
     return Crumb(month_text, reverse('zinnia_entry_archive_month',
                                      args=[year, month]))
 

@@ -17,7 +17,7 @@ if FEEDS_FORMAT == 'atom':
                                name='zinnia_entry_latest_feed'),
                            url(r'^tags/(?P<slug>[-\w]+)/$', AtomTagEntries(),
                                name='zinnia_tag_feed'),
-                           url(r'^authors/(?P<username>[-\w]+)/$', AtomAuthorEntries(),
+                           url(r'^authors/(?P<username>[-\.\w]+)/$', AtomAuthorEntries(),
                                name='zinnia_author_feed'),
                            url(r'^categories/(?P<slug>[-\w]+)/$', AtomCategoryEntries(),
                                name='zinnia_category_feed'),
